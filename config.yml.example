@@ -1,0 +1,16 @@
+# Get it from the Supportbee web interface -> Account -> API Token
+auth_token: ...
+
+# As in http://{company}.supportbee.com
+company: ...
+
+# SLA groups
+groups:
+  - id: 1234
+    name: Passenger Basic Support
+    response_time_in_business_days: 3
+    overdue_label_name: overdue
+  - id: 1235
+    name: Passenger Silver Support
+    response_time_in_business_days: 2
+    overdue_label_name: overdue
