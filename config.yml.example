@@ -4,7 +4,7 @@ auth_token: ...
 # As in http://{company}.supportbee.com
 company: ...
 
-# SLA groups
+# Define your Supportbee groups and the corresponding SLA requirement.
 groups:
   - id: 1234
     name: Passenger Basic Support
