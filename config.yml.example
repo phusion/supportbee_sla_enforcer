@@ -4,13 +4,19 @@ auth_token: ...
 # As in http://{company}.supportbee.com
 company: ...
 
-# Define your Supportbee groups and the corresponding SLA requirement.
-groups:
-  - id: 1234
-    name: Passenger Basic Support
-    response_time_in_business_days: 3
-    overdue_label_name: overdue
-  - id: 1235
-    name: Passenger Silver Support
-    response_time_in_business_days: 2
-    overdue_label_name: overdue
+# Define matchers to match certain tickets and what kind of SLA requirements they have.
+matchers:
+  - name: Passenger support
+    conditions:
+      group_id: 1234
+      has_label: passenger
+      has_no_label: important
+    enforce:
+      response_time_in_business_days: 3
+  - name: Passenger support (assigned Hongli)
+    conditions:
+      user_id: 5678
+      has_label: passenger
+      has_no_label: important
+    enforce:
+      response_time_in_business_days: 3
