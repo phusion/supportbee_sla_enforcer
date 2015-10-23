@@ -6,17 +6,23 @@ company: ...
 
 # Define matchers to match certain tickets and what kind of SLA requirements they have.
 matchers:
-  - name: Passenger support
+  - name: Passenger basic support
     conditions:
       group_id: 1234
       has_label: passenger
-      has_no_label: important
+      has_no_label:
+        - silver
+        - gold+
     enforce:
-      response_time_in_business_days: 3
-  - name: Passenger support (assigned Hongli)
+      warn_time: 2 business days
+      overdue_time: 3 business days
+  - name: Passenger basic support (assigned Hongli)
     conditions:
       user_id: 5678
       has_label: passenger
-      has_no_label: important
+      has_no_label:
+        - silver
+        - gold+
     enforce:
-      response_time_in_business_days: 3
+      warn_time: 2 business days
+      overdue_time: 3 business days

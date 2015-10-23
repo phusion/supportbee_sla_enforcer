@@ -1,5 +1,6 @@
 require 'yaml'
 require 'business_time'
+require 'active_support/all'
 
 class ConfigFileLoader
   class KeyError < StandardError
@@ -65,22 +66,38 @@ private
     end
 
     enforce = matcher['enforce']
-    require_key(enforce, 'response_time_in_business_days',
-      "matchers[#{i}].enforce.response_time_in_business_days", Integer)
+    require_key(enforce, 'overdue_time',
+      "matchers[#{i}].enforce.overdue_time")
   end
 
   def fix_up_matcher(matcher)
     conditions = matcher['conditions']
     enforce = matcher['enforce']
 
-    conditions['threshold'] = enforce['response_time_in_business_days'].
-      business_days.ago
+    conditions['warn_threshold'] = parse_time_description(
+      enforce['warn_time'])
+    conditions['overdue_threshold'] = parse_time_description(
+      enforce['overdue_time'])
+
     if conditions['has_label'].is_a?(String)
       conditions['has_label'] = [conditions['has_label']]
     end
     if conditions['has_no_label'].is_a?(String)
       conditions['has_no_label'] = [conditions['has_no_label']]
     end
-    enforce['label'] ||= 'overdue'
+
+    enforce['warn_label'] ||= 'respond now'
+    enforce['overdue_label'] ||= 'overdue'
+  end
+
+  def parse_time_description(desc)
+    desc = desc.to_s
+    if desc =~ /^(\d+) business days?$/
+      $1.to_i.business_days.ago
+    elsif desc =~ /^(\d+) days?$/
+      $1.to_i.days.ago
+    else
+      raise KeyError, "Cannot parse time description: #{desc.inspect}"
+    end
   end
 end

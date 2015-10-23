@@ -19,10 +19,14 @@ private
     result = {}
     @config['matchers'].each do |matcher|
       key = entity_key(matcher)
-      threshold = matcher['conditions']['threshold']
+      warn_threshold = matcher['conditions']['warn_threshold']
+      overdue_threshold = matcher['conditions']['overdue_threshold']
 
-      if result[key].nil? || threshold > result[key]
-        result[key] = threshold
+      if result[key].nil? || warn_threshold > result[key]
+        result[key] = warn_threshold
+      end
+      if result[key].nil? || overdue_threshold > result[key]
+        result[key] = overdue_threshold
       end
     end
     result
