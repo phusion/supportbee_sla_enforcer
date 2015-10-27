@@ -107,7 +107,9 @@ private
   def ticket_deserves_warning?(matcher, ticket)
     conditions = matcher['conditions']
     overdue_threshold = conditions['warn_threshold']
-    Time.parse(ticket['last_activity_at']) < overdue_threshold
+    if overdue_threshold
+      Time.parse(ticket['last_activity_at']) < overdue_threshold
+    end
   end
 
   def ticket_has_label?(ticket, label)

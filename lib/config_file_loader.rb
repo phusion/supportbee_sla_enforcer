@@ -74,8 +74,10 @@ private
     conditions = matcher['conditions']
     enforce = matcher['enforce']
 
-    conditions['warn_threshold'] = parse_time_description(
-      enforce['warn_time'])
+    if enforce['warn_time']
+      conditions['warn_threshold'] = parse_time_description(
+        enforce['warn_time'])
+    end
     conditions['overdue_threshold'] = parse_time_description(
       enforce['overdue_time'])
 

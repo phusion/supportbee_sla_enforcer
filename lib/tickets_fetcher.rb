@@ -22,7 +22,7 @@ private
       warn_threshold = matcher['conditions']['warn_threshold']
       overdue_threshold = matcher['conditions']['overdue_threshold']
 
-      if result[key].nil? || warn_threshold > result[key]
+      if result[key].nil? || (warn_threshold && warn_threshold > result[key])
         result[key] = warn_threshold
       end
       if result[key].nil? || overdue_threshold > result[key]
